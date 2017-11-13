@@ -211,9 +211,9 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
         int i;
         for (i = 0; i < BLOCK_SIZE; i++) {
-            if (blockIdx.x == 0 && blockIdx.y == 0 && i == 0 && threadIdx.x == 1 && threadIdx.y == 0) {
+            if (blockIdx.x == 0 && blockIdx.y == 0 && i == 0 && threadRow == 1 && threadCol == 0) {
                 // printf("sharedA[%d][%d] * sharedB[%d][%d]\n", threadRow, i, i, threadCol);
-                printf("(%f * %f)+", sharedA[threadRow][i], sharedB[i][threadCol]);
+                printf("(A[%d][%d] * B[%d][%d])+", threadRow, i, i, threadCol);
             }
             resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
         }
