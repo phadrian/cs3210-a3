@@ -217,7 +217,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         __syncthreads();
     }
 
-    // setElement(subResult, threadRow, threadCol, resultValue);
+    setElement(subResult, threadRow, threadCol, resultValue);
 }
 
 void print_matrix(matrix m)
