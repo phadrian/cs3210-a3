@@ -47,13 +47,12 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
 
     // Allocate memory for sub matrix
     matrix subA;
-    float temp[BLOCK_SIZE][BLOCK_SIZE];
-    subA.element = temp;
-    int row;
-    for (row = 0; row < BLOCK_SIZE; row++) {
-        // subA.element[row] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
-        subA.element[row] = A.element[startingRow + row] + startingCol;
-    }
+    subA.element = A.element;
+    // int row;
+    // for (row = 0; row < BLOCK_SIZE; row++) {
+    //     // subA.element[row] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
+    //     subA.element[row] = A.element[startingRow + row] + startingCol;
+    // }
 
     // int row, col;
     // for (row = 0; row < BLOCK_SIZE; row++) {
@@ -196,6 +195,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int m;
 
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
+        float **temp = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
+        float **temp = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
         matrix subA = getSubMatrix(a, blockRow, m);
         matrix subB = getSubMatrix(b, m, blockCol);
 
