@@ -167,13 +167,13 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     float resultValue = 0;
 
     printf("size= %d, blockRow = %d, blockCol = %d\n", size, blockRow, blockCol);
-    int i, j;
-    for (i = 0; i < size; i++) {
-        for (j = 0; j < size; j++) {
-            printf("%f ", result.element[i][j]);
-        }
-        printf("\n");
-    }
+    // int i, j;
+    // for (i = 0; i < size; i++) {
+    //     for (j = 0; j < size; j++) {
+    //         printf("%f ", result.element[i][j]);
+    //     }
+    //     printf("\n");
+    // }
     // matrix subResult = getSubMatrix(result, blockRow, blockCol);
 }
 
@@ -204,7 +204,6 @@ void work()
 	allocate_matrix(&b);
 	allocate_matrix(&result1);
     allocate_matrix(&result2);
-    print_matrix(result2);
 
 	// Initialize matrix elements
 	init_matrix(a);
