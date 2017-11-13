@@ -50,8 +50,10 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     int row, col;
     for (row = 0; row < BLOCK_SIZE; row++) {
         for (col = 0; col < BLOCK_SIZE; col++) {
-            subA.element[row] = &A.element[startingRow + row][startingCol + col];
+            printf("%f ", A.element[startingRow + row][startingCol + col]);
+            // subA.element[row] = &A.element[startingRow + row][startingCol + col];
         }
+        printf("\n");
     }
 
     return subA;
@@ -166,9 +168,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int blockCol = blockIdx.x;
     float resultValue = 0;
 
-    printf("before getting subResult");
     matrix subResult = getSubMatrix(result, blockRow, blockCol);
-    printf("after getting subResult");
+    printf("after getting subResult\n");
 
     // int threadRow = threadIdx.y;
     // int threadCol = threadIdx.x;
