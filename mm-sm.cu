@@ -11,7 +11,7 @@
 #include <sys/time.h>
 #include <assert.h>
 
-#define BLOCK_SIZE 32
+#define BLOCK_SIZE 8
 
 int size;
 
@@ -169,7 +169,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     float resultValue = 0;
 
     if (threadIdx.x == 0 && threadIdx.y == 0) {
-        matrix subResult = getSubMatrix(result, blockRow, blockCol);
+        matrix subResult = getSubMatrix(a, blockRow, blockCol);
         printf("after getting subResult\n");
     }
 
@@ -224,6 +224,7 @@ void work()
 	allocate_matrix(&b);
 	allocate_matrix(&result1);
     allocate_matrix(&result2);
+    print_matrix(a);
 
 	// Initialize matrix elements
 	init_matrix(a);
@@ -236,7 +237,7 @@ void work()
         fprintf(stderr, "Matrix multiplication on CPU took %1.2f seconds\n", ((float)(after - before))/1000000000);
 
 	// Perform CUDA matrix  multiplication
-	dim3 block(BLOCK_SIZE, BLOCK_SIZE);			// a block of 32 x 32 CUDA threads
+	dim3 block(32, 32);			// a block of 32 x 32 CUDA threads
 	dim = (size % BLOCK_SIZE == 0) ? size / BLOCK_SIZE : size / BLOCK_SIZE + 1; 
 	dim3 grid(dim, dim);	// a grid of CUDA thread blocks
 	before = wall_clock_time();
