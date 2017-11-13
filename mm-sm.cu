@@ -47,8 +47,7 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
 
     // Allocate memory for sub matrix
     matrix subA;
-    float* temp[BLOCK_SIZE];
-    subA.element = &temp;
+    subA.element = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
     int row;
     for (row = 0; row < BLOCK_SIZE; row++) {
         // subA.element[row] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
@@ -188,7 +187,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     //     printf("after getting subResult\n");
     // }
 
-    matrix subResult = getSubMatrix(result, blockRow, blockCol, ptrSubResult);
+    matrix subResult = getSubMatrix(result, blockRow, blockCol);
 
     int threadRow = threadIdx.y;
     int threadCol = threadIdx.x;
@@ -196,8 +195,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int m;
 
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
-        matrix subA = getSubMatrix(a, blockRow, m, ptrSubA);
-        matrix subB = getSubMatrix(b, m, blockCol, ptrSubB);
+        matrix subA = getSubMatrix(a, blockRow, m);
+        matrix subB = getSubMatrix(b, m, blockCol);
 
         __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
         __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
