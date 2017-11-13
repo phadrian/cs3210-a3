@@ -217,7 +217,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         __syncthreads();
     }
 
-    printf("%f ", resultValue);
+    // printf("%f ", resultValue);
     setElement(subResult, threadRow, threadCol, resultValue);
 }
 
@@ -280,6 +280,7 @@ void work()
 	for (i = 0; correct && i < size; i++)
 		for (j = 0; j < size; j++)
 			if (result1.element[i][j] != result2.element[i][j]) {
+                printf("correct: %f, actual: %f\n", result1.element[i][j], result2.element[i][j]);
 				correct = 0;
 				break;
 			}
