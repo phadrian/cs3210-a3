@@ -207,7 +207,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         __syncthreads();
 
         int x, y;
-        if (threadRow == 0 && threadCol == 0) {
+        if (blockIdx.x == 0 && blockIdx.y == 0 && threadRow == 0 && threadCol == 0) {
             for (x = 0; x < BLOCK_SIZE; x++) {
                 for (y = 0; y < BLOCK_SIZE; y++) {
                     printf("%f ", sharedA[x][y]);
