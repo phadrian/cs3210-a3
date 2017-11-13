@@ -193,9 +193,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
     int m;
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
-        printf("%d\n", m);
-        // matrix subA = getSubMatrix(a, blockRow, m);
-        // matrix subB = getSubMatrix(b, m, blockCol);
+        matrix subA = getSubMatrix(a, blockRow, m);
+        matrix subB = getSubMatrix(b, m, blockCol);
 
         // if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
         //     printf("subA = ");
