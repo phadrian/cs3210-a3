@@ -51,7 +51,7 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     int row, col;
     for (row = 0; row < BLOCK_SIZE; row++) {
         for (col = 0; col < BLOCK_SIZE; col++) {
-            subA.element[row][col] = &A.element[startingRow + row][startingCol + col];
+            subA.element[row] = &A.element[startingRow + row][startingCol + col];
         }
     }
 
