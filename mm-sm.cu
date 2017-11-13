@@ -17,7 +17,7 @@ int size;
 
 typedef struct
 {
-	float ** element;
+	float element[BLOCK_SIZE][BLOCK_SIZE];
 } matrix;
 
 long long wall_clock_time()
@@ -47,12 +47,12 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
 
     // Allocate memory for sub matrix
     matrix subA;
-    subA.element = A.element;
-    // int row;
-    // for (row = 0; row < BLOCK_SIZE; row++) {
-    //     // subA.element[row] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
-    //     subA.element[row] = A.element[startingRow + row] + startingCol;
-    // }
+    // subA.element = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
+    int row;
+    for (row = 0; row < BLOCK_SIZE; row++) {
+        // subA.element[row] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
+        subA.element[row] = A.element[startingRow + row] + startingCol;
+    }
 
     // int row, col;
     // for (row = 0; row < BLOCK_SIZE; row++) {
