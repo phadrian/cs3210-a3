@@ -59,16 +59,16 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
         // for (col = 0; col < BLOCK_SIZE; col++) {
         //     printf("%f ", A.element[startingRow + row][startingCol + col]);
         // }
-        printf("\n");
+        // printf("\n");
     }
 
-    // int i, j;
-    // for (i = 0; i < BLOCK_SIZE; i++) {
-    //     for (j = 0; j < BLOCK_SIZE; j++) {
-    //         printf("%f ", subA.element[i][j]);
-    //     }
-    //     printf("\n");
-    // }
+    int i, j;
+    for (i = 0; i < BLOCK_SIZE; i++) {
+        for (j = 0; j < BLOCK_SIZE; j++) {
+            printf("%f ", subA.element[i][j]);
+        }
+        printf("\n");
+    }
     return subA;
 }
 
