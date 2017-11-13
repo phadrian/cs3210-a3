@@ -194,32 +194,27 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
     int m;
 
-    // if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
-    //     printf("hi\n");
-    //     // matrix subA = getSubMatrix(a, 1, 1);
-    //     matrix subB = getSubMatrix(b, 1, 0);
-    // }
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
-        // matrix subA = getSubMatrix(a, blockRow, m);
-        // matrix subB = getSubMatrix(b, m, blockCol);
+        matrix subA = getSubMatrix(a, blockRow, m);
+        matrix subB = getSubMatrix(b, m, blockCol);
 
-        // __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
-        // __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
+        __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
+        __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
 
-        // sharedA[threadRow][threadCol] = getElement(a, threadRow, threadCol);
-        // sharedB[threadRow][threadCol] = getElement(b, threadRow, threadCol);
+        sharedA[threadRow][threadCol] = getElement(a, threadRow, threadCol);
+        sharedB[threadRow][threadCol] = getElement(b, threadRow, threadCol);
 
-        // __syncthreads();
+        __syncthreads();
 
-        // int i;
-        // for (i = 0; i < BLOCK_SIZE; i++) {
-        //     resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
-        // }
+        int i;
+        for (i = 0; i < BLOCK_SIZE; i++) {
+            resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
+        }
 
-        // __syncthreads();
+        __syncthreads();
     }
 
-    // setElement(subResult, threadRow, threadCol, resultValue);
+    setElement(subResult, threadRow, threadCol, resultValue);
 }
 
 void print_matrix(matrix m)
