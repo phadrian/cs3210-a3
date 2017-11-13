@@ -43,7 +43,6 @@ __device__ void setElement(matrix A, int row, int col, float value) {
 }
 
 __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
-    printf("getting submatrix");
     int startingRow = BLOCK_SIZE * blockRow;
     int startingCol = BLOCK_SIZE * blockCol;
 
