@@ -199,10 +199,10 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     //     matrix subB = getSubMatrix(b, 1, 0);
     // }
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
-        // if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
-        //     matrix subA = getSubMatrix(a, blockRow, m);
-        // }
-        matrix subA = getSubMatrix(a, blockRow, m);
+        if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && (threadIdx.y == 0 || threadIdx.y == 1)) {
+            matrix subA = getSubMatrix(a, blockRow, m);
+        }
+        // matrix subA = getSubMatrix(a, blockRow, m);
         // matrix subB = getSubMatrix(b, m, blockCol);
 
         // if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
@@ -282,7 +282,7 @@ void work()
         fprintf(stderr, "Matrix multiplication on CPU took %1.2f seconds\n", ((float)(after - before))/1000000000);
 
 	// Perform CUDA matrix  multiplication
-	dim3 block(2, 2);			// a block of 32 x 32 CUDA threads
+	dim3 block(32, 32);			// a block of 32 x 32 CUDA threads
 	dim = (size % BLOCK_SIZE == 0) ? size / BLOCK_SIZE : size / BLOCK_SIZE + 1; 
 	dim3 grid(dim, dim);	// a grid of CUDA thread blocks
 	before = wall_clock_time();
