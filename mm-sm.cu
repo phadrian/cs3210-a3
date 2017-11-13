@@ -48,6 +48,8 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     matrix subA;
     int row, col;
     for (row = 0; row < BLOCK_SIZE; row++) {
+        float *temp = A.element[startingRow + row] + startingCol;
+        printf("first = %f, last = %f\n", temp[0], temp[BLOCK_SIZE - 1]);
         subA.element[row] = A.element[startingRow + row] + startingCol;
         for (col = 0; col < BLOCK_SIZE; col++) {
             printf("%f ", A.element[startingRow + row][startingCol + col]);
