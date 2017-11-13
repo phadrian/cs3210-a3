@@ -11,7 +11,7 @@
 #include <sys/time.h>
 #include <assert.h>
 
-#define BLOCK_SIZE 32
+#define BLOCK_SIZE 4
 
 int size;
 
@@ -259,9 +259,10 @@ void work()
 	mm(a, b, result1);
 	after = wall_clock_time();
         fprintf(stderr, "Matrix multiplication on CPU took %1.2f seconds\n", ((float)(after - before))/1000000000);
+    print_matrix(result1);
 
 	// Perform CUDA matrix  multiplication
-	dim3 block(32, 32);			// a block of 32 x 32 CUDA threads
+	dim3 block(BLOCK_SIZE, BLOCK_SIZE);			// a block of 32 x 32 CUDA threads
 	dim = (size % BLOCK_SIZE == 0) ? size / BLOCK_SIZE : size / BLOCK_SIZE + 1; 
 	dim3 grid(dim, dim);	// a grid of CUDA thread blocks
 	before = wall_clock_time();
@@ -269,6 +270,7 @@ void work()
 	cudaDeviceSynchronize();
 	after = wall_clock_time();
 	fprintf(stderr, "Matrix multiplication on GPU took %1.2f seconds\n", ((float)(after - before))/1000000000);
+    print_matrix(result2);
 
 	// was there any error?
         rc = cudaGetLastError();
