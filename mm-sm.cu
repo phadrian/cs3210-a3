@@ -41,18 +41,18 @@ __device__ void setElement(matrix A, int row, int col, float value) {
     A.element[row][col] = value;
 }
 
-__device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
+__device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol, float **ptr) {
     int startingRow = BLOCK_SIZE * blockRow;
     int startingCol = BLOCK_SIZE * blockCol;
 
     // Allocate memory for sub matrix
     matrix subA;
-    subA.element = A.element;
-    // int row;
-    // for (row = 0; row < BLOCK_SIZE; row++) {
-    //     // subA.element[row] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
-    //     subA.element[row] = A.element[startingRow + row] + startingCol;
-    // }
+    subA.element = ptr;
+    int row;
+    for (row = 0; row < BLOCK_SIZE; row++) {
+        // subA.element[row] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
+        subA.element[row] = A.element[startingRow + row] + startingCol;
+    }
 
     // int row, col;
     // for (row = 0; row < BLOCK_SIZE; row++) {
@@ -187,7 +187,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     //     printf("after getting subResult\n");
     // }
 
-    matrix subResult = getSubMatrix(result, blockRow, blockCol);
+    float ** ptrSubResult = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
+    matrix subResult = getSubMatrix(result, blockRow, blockCol, ptrSubResult);
 
     int threadRow = threadIdx.y;
     int threadCol = threadIdx.x;
@@ -195,10 +196,10 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int m;
 
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
-        float **temp = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
-        float **temp2 = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
-        matrix subA = getSubMatrix(a, blockRow, m);
-        matrix subB = getSubMatrix(b, m, blockCol);
+        float **ptrSubA = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
+        float **ptrSubB = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
+        matrix subA = getSubMatrix(a, blockRow, m, ptrSubA);
+        matrix subB = getSubMatrix(b, m, blockCol, ptrSubB);
 
         __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
         __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
