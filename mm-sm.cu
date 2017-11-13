@@ -196,7 +196,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
         float **temp = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
-        float **temp = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
+        float **temp2 = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
         matrix subA = getSubMatrix(a, blockRow, m);
         matrix subB = getSubMatrix(b, m, blockCol);
 
