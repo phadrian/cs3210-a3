@@ -173,7 +173,6 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         for (j = 0; j < BLOCK_SIZE; j++) {
             printf("%f ", subResult[i][j]);
         }
-        printf("\n");
     }
 }
 
