@@ -186,7 +186,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     //     printf("after getting subResult\n");
     // }
 
-    matrix subResult = getSubMatrix(a, blockRow, blockCol);
+    matrix subResult = getSubMatrix(result, blockRow, blockCol);
 
     int threadRow = threadIdx.y;
     int threadCol = threadIdx.x;
