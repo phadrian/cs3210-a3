@@ -58,7 +58,7 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     int i, j;
     for (i = 0; i < BLOCK_SIZE; i++) {
         for (j = 0; j < BLOCK_SIZE; j++) {
-            printf("%f ", subA[i][j]);
+            printf("%f ", subA.element[i][j]);
         }
         printf("\n");
     }
