@@ -218,11 +218,14 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
         int i;
         for (i = 0; i < BLOCK_SIZE; i++) {
-            if (threadIdx.x == 0 && threadIdx.y == 0) {
-                // printf("sharedA[%d][%d] * sharedB[%d][%d]\n", threadRow, i, i, threadCol);
-                printf("(A[%d][%d](%f) * B[%d][%d](%f))+", threadRow, i, sharedA[threadRow][i], i, threadCol, sharedB[i][threadCol]);
-            }
+            // if (threadIdx.x == 0 && threadIdx.y == 0) {
+            //     // printf("sharedA[%d][%d] * sharedB[%d][%d]\n", threadRow, i, i, threadCol);
+            //     printf("(A[%d][%d](%f) * B[%d][%d](%f))+", threadRow, i, sharedA[threadRow][i], i, threadCol, sharedB[i][threadCol]);
+            // }
             resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
+            if (threadRow == 0 && threadCol == 0) {
+                printf("result: %f\n", resultValue);
+            }
         }
 
         __syncthreads();
