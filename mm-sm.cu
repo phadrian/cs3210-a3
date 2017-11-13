@@ -62,13 +62,13 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
         printf("\n");
     }
 
-    int i, j;
-    for (i = 0; i < BLOCK_SIZE; i++) {
-        for (j = 0; j < BLOCK_SIZE; j++) {
-            printf("%f ", subA.element[i][j]);
-        }
-        printf("\n");
-    }
+    // int i, j;
+    // for (i = 0; i < BLOCK_SIZE; i++) {
+    //     for (j = 0; j < BLOCK_SIZE; j++) {
+    //         printf("%f ", subA.element[i][j]);
+    //     }
+    //     printf("\n");
+    // }
     return subA;
 }
 
@@ -194,7 +194,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int m;
 
     if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
-        matrix subA = getSubMatrix(a, 1, 1);
+        printf("hi\n");
+        // matrix subA = getSubMatrix(a, 1, 1);
         // matrix subB = getSubMatrix(b, 1, 0);
     }
     // for (m = 0; m < (size / BLOCK_SIZE); m++) {
