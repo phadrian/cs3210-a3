@@ -201,8 +201,11 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
         __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
 
-        sharedA[1][0] = 5;
-        sharedB[0][2] = 10;
+        if (blockIdx.x == 0 && blockIdx.y == 0) {
+            printf("trow= %d, tcol= %d\n", threadRow, threadCol);
+        }
+        sharedA[threadRow][threadCol] = 5;
+        sharedB[threadRow][threadCol] = 10;
 
         // __syncthreads();
 
