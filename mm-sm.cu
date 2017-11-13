@@ -11,7 +11,7 @@
 #include <sys/time.h>
 #include <assert.h>
 
-#define BLOCK_SIZE 32
+#define BLOCK_SIZE 8
 
 int size;
 
@@ -191,26 +191,45 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int threadRow = threadIdx.y;
     int threadCol = threadIdx.x;
 
-    // int m;
-    // for (m = 0; m < (size / BLOCK_SIZE); m++) {
-    //     matrix subA = getSubMatrix(a, blockRow, m);
-    //     matrix subB = getSubMatrix(b, m, blockCol);
+    int m;
+    for (m = 0; m < (size / BLOCK_SIZE); m++) {
+        matrix subA = getSubMatrix(a, blockRow, m);
+        matrix subB = getSubMatrix(b, m, blockCol);
 
-    //     __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
-    //     __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
+        if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
+            printf("subA = ");
+            int x, y;
+            for (x = 0; x < BLOCK_SIZE; x++) {
+                for (y = 0; y < BLOCK_SIZE; y++) {
+                    printf("%f ", subA.element[x][y]);
+                }
+                printf("\n");
+            }
 
-    //     sharedA[threadRow][threadCol] = getElement(subA, threadRow, threadCol);
-    //     sharedB[threadRow][threadCol] = getElement(subB, threadRow, threadCol);
+            printf("subB = ");
+            for (x = 0; x < BLOCK_SIZE; x++) {
+                for (y = 0; y < BLOCK_SIZE; y++) {
+                    printf("%f ", subB.element[x][y]);
+                }
+                printf("\n");
+            }
+        }
 
-    //     __syncthreads();
+        // __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
+        // __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
 
-    //     int i;
-    //     for (i = 0; i < BLOCK_SIZE; i++) {
-    //         resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
-    //     }
+        // sharedA[threadRow][threadCol] = getElement(subA, threadRow, threadCol);
+        // sharedB[threadRow][threadCol] = getElement(subB, threadRow, threadCol);
 
-    //     __syncthreads();
-    // }
+        // __syncthreads();
+
+        // int i;
+        // for (i = 0; i < BLOCK_SIZE; i++) {
+        //     resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
+        // }
+
+        // __syncthreads();
+    }
 
     // setElement(subResult, threadRow, threadCol, resultValue);
 }
