@@ -204,7 +204,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         // if (threadRow > 31 || threadCol > 31 || threadRow < 0 || threadCol < 0) {
         //     printf("trow= %d, tcol= %d\n", threadRow, threadCol);
         // }
-        sharedA[threadRow][threadCol] = 5;
+        sharedA[threadIdx.y][threadIdx.x] = 5;
         // sharedB[threadRow][threadCol] = 10;
 
         // __syncthreads();
