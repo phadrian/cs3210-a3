@@ -43,6 +43,7 @@ __device__ void setElement(matrix A, int row, int col, float value) {
 }
 
 __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
+    printf("getting submatrix");
     int startingRow = BLOCK_SIZE * blockRow;
     int startingCol = BLOCK_SIZE * blockCol;
 
@@ -50,7 +51,7 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     int row, col;
     for (row = 0; row < BLOCK_SIZE; row++) {
         for (col = 0; col < BLOCK_SIZE; col++) {
-            subA.element[row][col] = A.element[startingRow + row][startingCol + col];
+            subA.element[row][col] = &A.element[startingRow + row][startingCol + col];
         }
     }
 
@@ -166,15 +167,32 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int blockCol = blockIdx.x;
     float resultValue = 0;
 
-    printf("size= %d, blockRow = %d, blockCol = %d\n", size, blockRow, blockCol);
-    // int i, j;
-    // for (i = 0; i < size; i++) {
-    //     for (j = 0; j < size; j++) {
-    //         printf("%f ", result.element[i][j]);
+    printf("before getting subResult");
+    matrix subResult = getSubMatrix(result, blockRow, blockCol);
+    printf("after getting subResult");
+
+    // int threadRow = threadIdx.y;
+    // int threadCol = threadIdx.x;
+
+    // int m;
+    // for (m = 0; m < (size / BLOCK_SIZE); m++) {
+    //     matrix subA = getSubMatrix(a, blockRow, m);
+    //     matrix subB = getSubMatrix(b, m, blockCol);
+
+    //     __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
+    //     __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
+
+    //     __syncthreads();
+
+    //     int i;
+    //     for (i = 0; i < BLOCK_SIZE; i++) {
+    //         resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
     //     }
-    //     printf("\n");
+
+    //     __syncthreads();
     // }
-    // matrix subResult = getSubMatrix(result, blockRow, blockCol);
+
+    // setElement(subResult, threadRow, threadCol, resultValue);
 }
 
 void print_matrix(matrix m)
