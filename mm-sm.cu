@@ -206,21 +206,21 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
         __syncthreads();
 
-        int x, y;
-        if (blockIdx.x == 0 && blockIdx.y == 0 && threadRow == 0 && threadCol == 0) {
-            for (x = 0; x < BLOCK_SIZE; x++) {
-                for (y = 0; y < BLOCK_SIZE; y++) {
-                    printf("%f ", sharedA[x][y]);
-                }
-                printf("\n");
-            }
-            for (x = 0; x < BLOCK_SIZE; x++) {
-                for (y = 0; y < BLOCK_SIZE; y++) {
-                    printf("%f ", sharedB[x][y]);
-                }
-                printf("\n");
-            }
-        }
+        // int x, y;
+        // if (blockIdx.x == 0 && blockIdx.y == 0 && threadRow == 0 && threadCol == 0) {
+        //     for (x = 0; x < BLOCK_SIZE; x++) {
+        //         for (y = 0; y < BLOCK_SIZE; y++) {
+        //             printf("%f ", sharedA[x][y]);
+        //         }
+        //         printf("\n");
+        //     }
+        //     for (x = 0; x < BLOCK_SIZE; x++) {
+        //         for (y = 0; y < BLOCK_SIZE; y++) {
+        //             printf("%f ", sharedB[x][y]);
+        //         }
+        //         printf("\n");
+        //     }
+        // }
 
         int i;
         for (i = 0; i < BLOCK_SIZE; i++) {
@@ -272,17 +272,17 @@ void work()
 	// Initialize matrix elements
 	init_matrix(a);
     init_matrix(b);
-    print_matrix(a);
-    printf("\n");
-    print_matrix(b);
-    printf("\n");
+    // print_matrix(a);
+    // printf("\n");
+    // print_matrix(b);
+    // printf("\n");
 
 	// Perform sequential matrix multiplication
 	before = wall_clock_time();
 	mm(a, b, result1);
 	after = wall_clock_time();
         fprintf(stderr, "Matrix multiplication on CPU took %1.2f seconds\n", ((float)(after - before))/1000000000);
-    print_matrix(result1);
+    // print_matrix(result1);
 
 	// Perform CUDA matrix  multiplication
 	dim3 block(BLOCK_SIZE, BLOCK_SIZE);			// a block of 32 x 32 CUDA threads
@@ -293,7 +293,7 @@ void work()
 	cudaDeviceSynchronize();
 	after = wall_clock_time();
 	fprintf(stderr, "Matrix multiplication on GPU took %1.2f seconds\n", ((float)(after - before))/1000000000);
-    print_matrix(result2);
+    // print_matrix(result2);
 
 	// was there any error?
         rc = cudaGetLastError();
