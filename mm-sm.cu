@@ -204,20 +204,20 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         // if (threadRow > 31 || threadCol > 31 || threadRow < 0 || threadCol < 0) {
         //     printf("trow= %d, tcol= %d\n", threadRow, threadCol);
         // }
-        sharedA[threadRow][threadCol] = getElement(a, threadRow, threadCol);
-        sharedB[threadRow][threadCol] = getElement(b, threadRow, threadCol);
+        // sharedA[threadRow][threadCol] = getElement(a, threadRow, threadCol);
+        // sharedB[threadRow][threadCol] = getElement(b, threadRow, threadCol);
 
-        __syncthreads();
+        // __syncthreads();
 
-        int i;
-        for (i = 0; i < BLOCK_SIZE; i++) {
-            resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
-        }
+        // int i;
+        // for (i = 0; i < BLOCK_SIZE; i++) {
+        //     resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
+        // }
 
-        __syncthreads();
+        // __syncthreads();
     }
 
-    setElement(subResult, threadRow, threadCol, resultValue);
+    // setElement(subResult, threadRow, threadCol, resultValue);
 }
 
 void print_matrix(matrix m)
