@@ -45,7 +45,14 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     int startingRow = BLOCK_SIZE * blockRow;
     int startingCol = BLOCK_SIZE * blockCol;
 
+    // Allocate memory for sub matrix
     matrix subA;
+    int m;
+    cudaMallocManaged((void**)&(subA->element), sizeof(float*) * BLOCK_SIZE);
+    for (m = 0; m < BLOCK_SIZE; m++) {
+        cudaMallocManaged((void**)&(subA->element[m]), sizeof(float) * BLOCK_SIZE);
+    }
+
     int row, col;
     for (row = 0; row < BLOCK_SIZE; row++) {
         float *temp = A.element[startingRow + row] + startingCol;
