@@ -194,8 +194,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int m;
 
     if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
-        matrix subA = getSubMatrix(a, 0, 1);
-        matrix subB = getSubMatrix(b, 1, 0);
+        matrix subA = getSubMatrix(a, 1, 1);
+        // matrix subB = getSubMatrix(b, 1, 0);
     }
     // for (m = 0; m < (size / BLOCK_SIZE); m++) {
         // matrix subA = getSubMatrix(a, blockRow, m);
