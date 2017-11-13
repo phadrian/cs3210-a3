@@ -207,14 +207,14 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         sharedA[threadRow][threadCol] = getElement(a, threadRow, threadCol);
         sharedB[threadRow][threadCol] = getElement(b, threadRow, threadCol);
 
-        // __syncthreads();
+        __syncthreads();
 
-        // int i;
-        // for (i = 0; i < BLOCK_SIZE; i++) {
-        //     resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
-        // }
+        int i;
+        for (i = 0; i < BLOCK_SIZE; i++) {
+            resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
+        }
 
-        // __syncthreads();
+        __syncthreads();
     }
 
     // setElement(subResult, threadRow, threadCol, resultValue);
