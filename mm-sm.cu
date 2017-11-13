@@ -199,30 +199,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     //     matrix subB = getSubMatrix(b, 1, 0);
     // }
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
-        if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && (threadIdx.y == 0 || threadIdx.y == 1)) {
-            matrix subA = getSubMatrix(a, blockRow, threadIdx.y);
-        }
-        // matrix subA = getSubMatrix(a, blockRow, m);
-        // matrix subB = getSubMatrix(b, m, blockCol);
-
-        // if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
-        //     printf("subA = ");
-        //     int x, y;
-        //     for (x = 0; x < BLOCK_SIZE; x++) {
-        //         for (y = 0; y < BLOCK_SIZE; y++) {
-        //             printf("%f ", subA.element[x][y]);
-        //         }
-        //         printf("\n");
-        //     }
-
-        //     printf("subB = ");
-        //     for (x = 0; x < BLOCK_SIZE; x++) {
-        //         for (y = 0; y < BLOCK_SIZE; y++) {
-        //             printf("%f ", subB.element[x][y]);
-        //         }
-        //         printf("\n");
-        //     }
-        // }
+        matrix subA = getSubMatrix(a, blockRow, m);
+        matrix subB = getSubMatrix(b, m, blockCol);
 
         // __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
         // __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
