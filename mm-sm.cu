@@ -168,7 +168,7 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int blockCol = blockIdx.x;
     float resultValue = 0;
 
-    if (blockIdx.x == 0 && blockIdx.y == 0) {
+    if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
         matrix subResult = getSubMatrix(a, blockRow, blockCol);
         printf("after getting subResult\n");
     }
