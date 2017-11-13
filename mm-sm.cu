@@ -48,9 +48,10 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     // Allocate memory for sub matrix
     matrix subA;
     int m;
-    cudaMallocManaged((void**)&(subA->element), sizeof(float*) * BLOCK_SIZE);
+    cudaError_t rc;
+    rc = cudaMallocManaged((void**)&(subA->element), sizeof(float*) * BLOCK_SIZE);
     for (m = 0; m < BLOCK_SIZE; m++) {
-        cudaMallocManaged((void**)&(subA->element[m]), sizeof(float) * BLOCK_SIZE);
+        rc = cudaMallocManaged((void**)&(subA->element[m]), sizeof(float) * BLOCK_SIZE);
     }
 
     int row, col;
