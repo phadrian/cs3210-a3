@@ -199,10 +199,10 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     //     matrix subB = getSubMatrix(b, 1, 0);
     // }
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
-        if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
-            matrix subA = getSubMatrix(a, blockRow, m);
-        }
-        // matrix subA = getSubMatrix(a, blockRow, m);
+        // if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
+        //     matrix subA = getSubMatrix(a, blockRow, m);
+        // }
+        matrix subA = getSubMatrix(a, blockRow, m);
         // matrix subB = getSubMatrix(b, m, blockCol);
 
         // if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
