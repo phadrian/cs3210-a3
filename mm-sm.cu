@@ -50,13 +50,18 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     for (row = 0; row < BLOCK_SIZE; row++) {
         for (col = 0; col < BLOCK_SIZE; col++) {
             printf("%f ", A.element[startingRow + row][startingCol + col]);
-            float *temp = A.element[startingRow + row] + startingCol + col;
-            printf("%f ", temp[0]);
-            // subA.element[row] = &(A.element[startingRow + row] + startingCol + col);
+            subA.element[row] = A.element[startingRow + row] + startingCol + col;
         }
         printf("\n");
     }
 
+    int i, j;
+    for (i = 0; i < BLOCK_SIZE; i++) {
+        for (j = 0; j < BLOCK_SIZE; j++) {
+            printf("%f ", subA[i][j]);
+        }
+        printf("\n");
+    }
     return subA;
 }
 
