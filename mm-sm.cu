@@ -252,7 +252,10 @@ void work()
 	// Initialize matrix elements
 	init_matrix(a);
     init_matrix(b);
-    // print_matrix(a);
+    print_matrix(a);
+    printf("\n");
+    print_matrix(b);
+    printf("\n");
 
 	// Perform sequential matrix multiplication
 	before = wall_clock_time();
