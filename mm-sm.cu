@@ -199,6 +199,9 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
         __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
 
+        sharedA[threadRow][threadCol] = getElement(subA, threadRow, threadCol);
+        sharedB[threadRow][threadCol] = getElement(subB, threadRow, threadCol);
+
         __syncthreads();
 
         int i;
@@ -243,7 +246,6 @@ void work()
 	// Initialize matrix elements
 	init_matrix(a);
     init_matrix(b);
-    print_matrix(a);
 
 	// Perform sequential matrix multiplication
 	before = wall_clock_time();
