@@ -38,7 +38,7 @@ __device__ float getElement(matrix A, int row, int col) {
     return A.element[row][col];
 }
 
-_device__ void setElement(matrix A, int row, int col, float value) {
+__device__ void setElement(matrix A, int row, int col, float value) {
     A.element[row][col] = value;
 }
 
