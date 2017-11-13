@@ -181,10 +181,10 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int blockCol = blockIdx.x;
     float resultValue = 0;
 
-    if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
-        matrix subResult = getSubMatrix(a, blockRow, blockCol);
-        printf("after getting subResult\n");
-    }
+    // if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
+    //     matrix subResult = getSubMatrix(a, blockRow, blockCol);
+    //     printf("after getting subResult\n");
+    // }
 
     // matrix subResult = getSubMatrix(result, blockRow, blockCol);
 
@@ -193,11 +193,11 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
     int m;
 
-    // if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
-    //     printf("hi\n");
-    //     // matrix subA = getSubMatrix(a, 1, 1);
-    //     // matrix subB = getSubMatrix(b, 1, 0);
-    // }
+    if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
+        printf("hi\n");
+        // matrix subA = getSubMatrix(a, 1, 1);
+        matrix subB = getSubMatrix(b, 1, 0);
+    }
     // for (m = 0; m < (size / BLOCK_SIZE); m++) {
         // matrix subA = getSubMatrix(a, blockRow, m);
         // matrix subB = getSubMatrix(b, m, blockCol);
