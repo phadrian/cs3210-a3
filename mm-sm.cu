@@ -48,27 +48,28 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
     // Allocate memory for sub matrix
     matrix subA;
     subA.element = (float**)malloc(sizeof(float*) * BLOCK_SIZE);
-    int m;
-    for (m = 0; m < BLOCK_SIZE; m++) {
-        subA.element[m] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
-    }
-
-    int row, col;
+    int row;
     for (row = 0; row < BLOCK_SIZE; row++) {
+        // subA.element[row] = (float*)malloc(sizeof(float) * BLOCK_SIZE);
         subA.element[row] = A.element[startingRow + row] + startingCol;
-        // for (col = 0; col < BLOCK_SIZE; col++) {
-        //     printf("%f ", A.element[startingRow + row][startingCol + col]);
-        // }
-        // printf("\n");
     }
 
-    int i, j;
-    for (i = 0; i < BLOCK_SIZE; i++) {
-        for (j = 0; j < BLOCK_SIZE; j++) {
-            printf("%f ", subA.element[i][j]);
-        }
-        printf("\n");
-    }
+    // int row, col;
+    // for (row = 0; row < BLOCK_SIZE; row++) {
+    //     subA.element[row] = A.element[startingRow + row] + startingCol;
+    //     // for (col = 0; col < BLOCK_SIZE; col++) {
+    //     //     printf("%f ", A.element[startingRow + row][startingCol + col]);
+    //     // }
+    //     // printf("\n");
+    // }
+
+    // int i, j;
+    // for (i = 0; i < BLOCK_SIZE; i++) {
+    //     for (j = 0; j < BLOCK_SIZE; j++) {
+    //         printf("%f ", subA.element[i][j]);
+    //     }
+    //     printf("\n");
+    // }
     return subA;
 }
 
