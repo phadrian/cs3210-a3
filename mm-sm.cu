@@ -182,12 +182,12 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
     int blockCol = blockIdx.x;
     float resultValue = 0;
 
-    // if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
-    //     matrix subResult = getSubMatrix(a, blockRow, blockCol);
-    //     printf("after getting subResult\n");
-    // }
+    if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
+        matrix subResult = getSubMatrix(a, blockRow, blockCol);
+        printf("after getting subResult\n");
+    }
 
-    matrix subResult = getSubMatrix(result, blockRow, blockCol);
+    // matrix subResult = getSubMatrix(result, blockRow, blockCol);
 
     int threadRow = threadIdx.y;
     int threadCol = threadIdx.x;
@@ -253,6 +253,7 @@ void work()
 	// Initialize matrix elements
 	init_matrix(a);
     init_matrix(b);
+    print_matrix(a);
 
 	// Perform sequential matrix multiplication
 	before = wall_clock_time();
