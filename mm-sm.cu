@@ -201,19 +201,24 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
         __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
 
-        // if (threadRow > 31 || threadCol > 31 || threadRow < 0 || threadCol < 0) {
-        //     printf("trow= %d, tcol= %d\n", threadRow, threadCol);
-        // }
         sharedA[threadRow][threadCol] = getElement(a, threadRow, threadCol);
         sharedB[threadRow][threadCol] = getElement(b, threadRow, threadCol);
 
         __syncthreads();
 
+        int x, y;
+        for (x = 0; x < BLOCK_SIZE; x++) {
+            for (y = 0; y < BLOCK_SIZE; y++) {
+                printf("%f ", sharedA[x][y]);
+            }
+            printf("\n");
+        }
+
         int i;
         for (i = 0; i < BLOCK_SIZE; i++) {
             if (blockIdx.x == 0 && blockIdx.y == 0 && i == 0 && threadRow == 1 && threadCol == 0) {
                 // printf("sharedA[%d][%d] * sharedB[%d][%d]\n", threadRow, i, i, threadCol);
-                printf("(A[%d][%d] * B[%d][%d])+", threadRow, i, i, threadCol);
+                // printf("(A[%d][%d] * B[%d][%d])+", threadRow, i, i, threadCol);
             }
             resultValue += sharedA[threadRow][i] * sharedB[i][threadCol];
         }
