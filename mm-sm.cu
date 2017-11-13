@@ -11,7 +11,7 @@
 #include <sys/time.h>
 #include <assert.h>
 
-#define BLOCK_SIZE 4
+#define BLOCK_SIZE 32
 
 int size;
 
