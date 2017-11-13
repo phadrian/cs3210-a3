@@ -11,7 +11,7 @@
 #include <sys/time.h>
 #include <assert.h>
 
-#define BLOCK_SIZE 32
+#define BLOCK_SIZE 8
 
 int size;
 
@@ -62,13 +62,13 @@ __device__ matrix getSubMatrix(matrix A, int blockRow, int blockCol) {
         printf("\n");
     }
 
-    // int i, j;
-    // for (i = 0; i < BLOCK_SIZE; i++) {
-    //     for (j = 0; j < BLOCK_SIZE; j++) {
-    //         printf("%f ", subA.element[i][j]);
-    //     }
-    //     printf("\n");
-    // }
+    int i, j;
+    for (i = 0; i < BLOCK_SIZE; i++) {
+        for (j = 0; j < BLOCK_SIZE; j++) {
+            printf("%f ", subA.element[i][j]);
+        }
+        printf("\n");
+    }
     return subA;
 }
 
@@ -193,7 +193,10 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
     int m;
 
-    matrix subA = getSubMatrix(a, blockRow, 0);
+    if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
+        matrix subA = getSubMatrix(a, 0, 1);
+        matrix subB = getSubMatrix(b, 1, 0);
+    }
     // for (m = 0; m < (size / BLOCK_SIZE); m++) {
         // matrix subA = getSubMatrix(a, blockRow, m);
         // matrix subB = getSubMatrix(b, m, blockCol);
