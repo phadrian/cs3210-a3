@@ -193,27 +193,28 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
 
     int m;
     for (m = 0; m < (size / BLOCK_SIZE); m++) {
-        matrix subA = getSubMatrix(a, blockRow, m);
-        matrix subB = getSubMatrix(b, m, blockCol);
+        printf("%d\n", m);
+        // matrix subA = getSubMatrix(a, blockRow, m);
+        // matrix subB = getSubMatrix(b, m, blockCol);
 
-        if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
-            printf("subA = ");
-            int x, y;
-            for (x = 0; x < BLOCK_SIZE; x++) {
-                for (y = 0; y < BLOCK_SIZE; y++) {
-                    printf("%f ", subA.element[x][y]);
-                }
-                printf("\n");
-            }
+        // if (blockIdx.x == 1 && blockIdx.y == 1 && threadIdx.x == 0 && threadIdx.y == 0) {
+        //     printf("subA = ");
+        //     int x, y;
+        //     for (x = 0; x < BLOCK_SIZE; x++) {
+        //         for (y = 0; y < BLOCK_SIZE; y++) {
+        //             printf("%f ", subA.element[x][y]);
+        //         }
+        //         printf("\n");
+        //     }
 
-            printf("subB = ");
-            for (x = 0; x < BLOCK_SIZE; x++) {
-                for (y = 0; y < BLOCK_SIZE; y++) {
-                    printf("%f ", subB.element[x][y]);
-                }
-                printf("\n");
-            }
-        }
+        //     printf("subB = ");
+        //     for (x = 0; x < BLOCK_SIZE; x++) {
+        //         for (y = 0; y < BLOCK_SIZE; y++) {
+        //             printf("%f ", subB.element[x][y]);
+        //         }
+        //         printf("\n");
+        //     }
+        // }
 
         // __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
         // __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
