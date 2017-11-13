@@ -282,7 +282,7 @@ void work()
         fprintf(stderr, "Matrix multiplication on CPU took %1.2f seconds\n", ((float)(after - before))/1000000000);
 
 	// Perform CUDA matrix  multiplication
-	dim3 block(32, 32);			// a block of 32 x 32 CUDA threads
+	dim3 block(2, 2);			// a block of 32 x 32 CUDA threads
 	dim = (size % BLOCK_SIZE == 0) ? size / BLOCK_SIZE : size / BLOCK_SIZE + 1; 
 	dim3 grid(dim, dim);	// a grid of CUDA thread blocks
 	before = wall_clock_time();
