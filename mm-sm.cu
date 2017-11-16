@@ -180,8 +180,8 @@ __global__ void mm_kernel(matrix a, matrix b, matrix result, int size)
         __shared__ float sharedA[BLOCK_SIZE][BLOCK_SIZE];
         __shared__ float sharedB[BLOCK_SIZE][BLOCK_SIZE];
 
-        sharedA[threadIdx.y][threadIdx.x] = a.element[i][k * BLOCK_SIZE + threadCol];
-        sharedB[threadIdx.y][threadIdx.x] = b.element[k * BLOCK_SIZE + threadRow][j];
+        sharedA[threadIdx.y][threadIdx.x] = a.element[i][k * BLOCK_SIZE + threadIdx.x];
+        sharedB[threadIdx.y][threadIdx.x] = b.element[k * BLOCK_SIZE + threadIdx.y][j];
 
         __syncthreads();
 
